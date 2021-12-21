@@ -70,7 +70,13 @@ matrix_vector_prod_seq UUT(
 // Run our clock.
 always #(CLK_PERIOD_NS/2) clk = ~clk;
 
+logic [1535:0] testvectors [1000:0];
+
 initial begin
+    // Collect all internal variables for waveforms.
+    $dumpfile("matrix_vector_prod.vcd");
+    $dumpvars(0, UUT);
+
     // Initialize module inputs.
     clk = 0;
     rst = 1;
@@ -79,6 +85,29 @@ initial begin
 
     // Assert reset for long enough.
     repeat(2) @(negedge clk);
+    $readmemh("matrix_vector_prod.tv", testvectors);
+
+
+    for (int i = 0; i < 13; i++) begin
+        // Load values from testvector
+        (mat_0_0, mat_0_1, mat_0_2, mat_0_3,
+        mat_1_0, mat_1_1, mat_1_2, mat_1_3,
+        mat_2_0, mat_2_1, mat_2_2, mat_2_3,
+        mat_3_0, mat_3_1, mat_3_2, mat_3_3,
+
+        vector_0, vector_1, vector_2, vector_3,
+
+        target_0, target_1, target_2, target_3) = testvectors[i];
+
+        while (~o_valid) begin
+           i_valid = 1;
+        end
+        i_valid = 0;
+        $display("Should be [%f, %f, %f, %f], is [%f, %f, %f, %f]",
+                target_0, target_1, target_2, target_3,
+                product_0, product_1, product_2, product_3);
+    end
+
 
     
     end
