@@ -1,4 +1,4 @@
-# FPGA-Wireframe-Renderer
+# FPGA-Matrix-Accelerator
 A four dimensional Matrix-Vector Product module written in SystemVerilog.
 
 ## Repo Organization
