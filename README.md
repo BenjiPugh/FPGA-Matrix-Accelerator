@@ -1,6 +1,8 @@
 # FPGA-Matrix-Accelerator
 A four dimensional Matrix-Vector Product module written in SystemVerilog.
 
+Currently untested (testbench is currently being built)
+
 ## Repo Organization
 This repo contains a LaTeX doc (and PDF) describing the project, as well as all of the modules implemented and helper python scripts.
 The combinational and sequential implementations of Matrix-Vector multiplication are contained in `matrix_vector_prod_comb.sv` and `matrix_vector_prod_seq.sv` respectively.
