@@ -9,5 +9,7 @@ The combinational and sequential implementations of Matrix-Vector multiplication
 
 ## Details
 Computer Architecture project
+
 Olin College of Engineering
+
 Benji Pugh
