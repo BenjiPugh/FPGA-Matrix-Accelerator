@@ -1,5 +1,5 @@
 # FPGA-Wireframe-Renderer
-A Matrix-Vector Product module written in SystemVerilog
+A four dimensional Matrix-Vector Product module written in SystemVerilog.
 
 Computer Architecture project
 Olin College of Engineering
