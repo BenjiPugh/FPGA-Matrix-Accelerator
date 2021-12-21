@@ -1,5 +1,5 @@
-module matrix_vector_prod(
-    rst, clk, i_ready, i_valid
+module matrix_vector_prod_seq(
+    rst, clk, i_ready, i_valid,
 
     mat_0_0, mat_0_1, mat_0_2, mat_0_3,
     mat_1_0, mat_1_1, mat_1_2, mat_1_3,
@@ -17,37 +17,37 @@ A combinational float-based matrix-vector product using behavioral logic
 Operates on 4x4 matrices and 4 long vectors
 */
 
-// Matrices and Vectors are composed of 16 bit floats
+input logic clk, rst;
 
 // Matrix inputs
-input real [15:0] mat_0_0;
-input real [15:0] mat_0_1;
-input real [15:0] mat_0_2;
-input real [15:0] mat_0_3;
-input real [15:0] mat_1_0;
-input real [15:0] mat_1_1;
-input real [15:0] mat_1_2;
-input real [15:0] mat_1_3;
-input real [15:0] mat_2_0;
-input real [15:0] mat_2_1;
-input real [15:0] mat_2_2;
-input real [15:0] mat_2_3;
-input real [15:0] mat_3_0;
-input real [15:0] mat_3_1;
-input real [15:0] mat_3_2;
-input real [15:0] mat_3_3;
+input real mat_0_0;
+input real mat_0_1;
+input real mat_0_2;
+input real mat_0_3;
+input real mat_1_0;
+input real mat_1_1;
+input real mat_1_2;
+input real mat_1_3;
+input real mat_2_0;
+input real mat_2_1;
+input real mat_2_2;
+input real mat_2_3;
+input real mat_3_0;
+input real mat_3_1;
+input real mat_3_2;
+input real mat_3_3;
 
 // Vector inputs
-input real [15:0] vector_0;
-input real [15:0] vector_1;
-input real [15:0] vector_2;
-input real [15:0] vector_3;
+input real vector_0;
+input real vector_1;
+input real vector_2;
+input real vector_3;
 
 // Vector outputs
-output real [15:0] product_0;
-output real [15:0] product_1;
-output real [15:0] product_2;
-output real [15:0] product_3;
+output real product_0;
+output real product_1;
+output real product_2;
+output real product_3;
 
 
 // Handshake inputs and outputs
@@ -61,18 +61,18 @@ typedef enum logic [1:0] {
 accelerator_state state;
 
 logic [3:0] matrix_index; // Counting from top left corner down
-real [15:0] a, b result; // Multiplication parameters and output
+real a, b result; // Multiplication parameters and output
 
 // Put all of the matrix values in Muxes so we can access them individually
 // using the matrix index.
 
-mux16 #(.N(16)) matrix(.in0(mat_0_0),.in1(mat_0_1),.in2(mat_0_2),.in3(mat_0_3),
+mux16 #(.N(64)) matrix(.in0(mat_0_0),.in1(mat_0_1),.in2(mat_0_2),.in3(mat_0_3),
                        .in4(mat_1_0),.in5(mat_1_1),.in6(mat_1_2),.in7(mat_1_3),
                        .in8(mat_2_0),.in9(mat_2_1),.in10(mat_2_2).in11(mat_2_3),
                        .in12(mat_3_0),.in13(mat_3_1),.in14(mat_3_2),.in15(mat_3_3),
                        .switch(matrix_index), .out(a));
 
-mux4 #(.N(16)) vector(.in0(vector_0),.in1(vector_1),.in2(vector_2),.in3(vector_3),
+mux4 #(.N(64)) vector(.in0(vector_0),.in1(vector_1),.in2(vector_2),.in3(vector_3),
                       .switch(matrix_index[1:0]), .out(b));
 
 
