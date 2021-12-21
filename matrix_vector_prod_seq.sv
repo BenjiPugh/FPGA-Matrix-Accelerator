@@ -61,14 +61,14 @@ typedef enum logic [1:0] {
 accelerator_state state;
 
 logic [3:0] matrix_index; // Counting from top left corner down
-real a, b result; // Multiplication parameters and output
+real a, b, result; // Multiplication parameters and output
 
 // Put all of the matrix values in Muxes so we can access them individually
 // using the matrix index.
 
 mux16 #(.N(64)) matrix(.in0(mat_0_0),.in1(mat_0_1),.in2(mat_0_2),.in3(mat_0_3),
                        .in4(mat_1_0),.in5(mat_1_1),.in6(mat_1_2),.in7(mat_1_3),
-                       .in8(mat_2_0),.in9(mat_2_1),.in10(mat_2_2).in11(mat_2_3),
+                       .in8(mat_2_0),.in9(mat_2_1),.in10(mat_2_2),.in11(mat_2_3),
                        .in12(mat_3_0),.in13(mat_3_1),.in14(mat_3_2),.in15(mat_3_3),
                        .switch(matrix_index), .out(a));
 

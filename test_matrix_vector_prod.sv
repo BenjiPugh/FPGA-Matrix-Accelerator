@@ -53,7 +53,7 @@ real target_2;
 real target_3;
 
 matrix_vector_prod_seq UUT(
-    rst, clk, i_ready, i_valid
+    rst, clk, i_ready, i_valid,
 
     mat_0_0, mat_0_1, mat_0_2, mat_0_3,
     mat_1_0, mat_1_1, mat_1_2, mat_1_3,
@@ -84,24 +84,27 @@ initial begin
     o_ready = 1;
 
     // Assert reset for long enough.
-    repeat(2) @(negedge clk);
+    #20;
+
     $readmemh("matrix_vector_prod.tv", testvectors);
 
 
     for (int i = 0; i < 13; i++) begin
         // Load values from testvector
-        (mat_0_0, mat_0_1, mat_0_2, mat_0_3,
+        {mat_0_0, mat_0_1, mat_0_2, mat_0_3,
         mat_1_0, mat_1_1, mat_1_2, mat_1_3,
         mat_2_0, mat_2_1, mat_2_2, mat_2_3,
         mat_3_0, mat_3_1, mat_3_2, mat_3_3,
 
         vector_0, vector_1, vector_2, vector_3,
 
-        target_0, target_1, target_2, target_3) = testvectors[i];
+        target_0, target_1, target_2, target_3} = testvectors[i];
 
         while (~o_valid) begin
            i_valid = 1;
+           #1;
         end
+        #1;
         i_valid = 0;
         $display("Should be [%f, %f, %f, %f], is [%f, %f, %f, %f]",
                 target_0, target_1, target_2, target_3,
